@@ -1,0 +1,382 @@
+$.confirm({
+    title: 'Add employee'
+    , content: 'Do you want to add this employee?'
+    , type: 'green'
+    , icon: 'fa fa-question-circle-o'
+    , buttons: {
+        btn_confirm: {
+          text: "submit"
+          , btnClass: "btn-success"
+          , action: function()
+          {
+            this.buttons.btn_confirm.setText('<i class="fas fa-spinner fa-spin"></i><span> submitting');
+            this.buttons.btn_confirm.disable();
+
+            setTimeout(() => {
+              modal_employee.modal('hide');
+              this.close();
+
+              toastr["success"]("employee successfully added.");
+            }, 3000);
+
+            return false;
+          }
+      },
+      btn_cancel: {
+        text: 'cancel'
+        , action: function()
+        {
+            this.close();
+        }
+      },
+    }
+});
+
+$.alert({
+  title: 'Ops!',
+  content: 'Please wait the other field/'s to load.',
+  type: 'red',
+  icon: 'fa fa-times-circle'
+});
+
+$.alert({
+    title: 'Success'
+    , content: 'Task successfully updated'
+    , type: 'green'
+    , icon: 'fa fa-check'
+});
+
+$.ajax({
+    url: API('time-out')
+    , method: 'POST'
+    , dataType: 'json'
+    , headers:
+    {
+        Authorization: token
+    }
+    , data: formData
+}).then(res =>
+{
+
+}).fail((err) => error(err));
+
+const sample_func = id =>
+  $.ajax({
+    url: API(`sample/${id}`),
+    headers: {
+      Authorization: token
+    }
+  });
+
+try
+{
+  const sample_data = await sample_func(id);
+  const { sample1, sample2} = sample_data;
+
+  if (sample_data)
+  {
+
+  }
+}
+catch (err)
+{
+  error(err);
+}
+
+if ($('#mySelect2').hasClass("select2-hidden-accessible")) {
+    // Select2 has been initialized
+}
+
+$.confirm({
+  content: function(){
+      let self = this;
+      self.setContent('Checking callback flow');
+      return $.ajax({
+          url: 'bower.json',
+          dataType: 'json',
+          method: 'get'
+      }).done(function (response) {
+          self.setContentAppend('<div>Done!</div>');
+      }).fail(function(){
+          self.setContentAppend('<div>Fail!</div>');
+      }).always(function(){
+          self.setContentAppend('<div>Always!</div>');
+      });
+  },
+  contentLoaded: function(data, status, xhr){
+      self.setContentAppend('<div>Content loaded!</div>');
+  },
+  onContentReady: function(){
+      this.setContentAppend('<div>Content ready!</div>');
+  }
+});
+
+$.confirm({
+  content: function(){
+      var self = this;
+      self.setContent('Checking callback flow');
+      return $.ajax({
+          url: 'bower.json',
+          dataType: 'json',
+          method: 'get'
+      }).done(function (response) {
+          self.setContentAppend('<div>Done!</div>');
+      }).fail(function(){
+          self.setContentAppend('<div>Fail!</div>');
+      }).always(function(){
+          self.setContentAppend('<div>Always!</div>');
+      });
+  },
+  contentLoaded: function(data, status, xhr){
+      self.setContentAppend('<div>Content loaded!</div>');
+  },
+  onContentReady: function(){
+      this.setContentAppend('<div>Content ready!</div>');
+  }
+});
+
+
+
+const userRolesInserted = insertedData.map(i=> levelId); [1,2]
+    data.map(d => {
+        let newData = d;
+        if( userRolesInserted.includes(d.levelId) ) {
+            newData =  insertedData.find(i => d.levelId === i.levelId )
+        }
+
+        return newData;
+    })
+
+
+
+
+    let level_data = data_level_role.filter(data => data.levelid == result.levelid)
+                                let new_data = level_data[0];
+
+                                //add role
+                                new_data.role = [result.role[0], ...new_data.role];
+
+                                console.log(new_data)
+
+                                //append new data
+                                data_level_role = data_level_role.map(t => (t.levelid === new_data.levelid ? new_data : t));
+
+                                dt_level_role.refreshLevelRole(data_level_role, false);
+
+
+ , changePagesLevelRole: function(page, pagination, total)
+        {
+            //entries elements
+            const entries_show_from = tab_level_role.find('div.entries').find('span.show-from');
+
+            const limit_page = 10;
+            const limit_pagination = 5;
+            const pagination_container = tab_level_role.find('ul.pagination');
+            const total_page =  Math.ceil(total / limit_page);
+
+            const show_to =  (page * limit_page) - (limit_page - data_level_role.length) //show_from + (limit_page - 1);
+            const show_from = (show_to - data_level_role.length) + 1//parseInt(entries_show_from.text()) + limit_page;
+
+            let links = '';
+            let pages = [];
+
+            for (let page_no = 1; page_no < (total_page + 1); page_no++)
+            {
+                pages = [...pages, { 'page_no' : page_no }];
+            }
+
+            let num_pages = Math.ceil(pages.length / limit_pagination);
+
+            // Validate page
+            if (pagination < 1) pagination = 1;
+            if (pagination > num_pages) pagination = num_pages;
+
+            pagination_container.html('');
+            let counter_start = page >= 4 ? parseInt(page) - 2 : 1 ;
+            let counter_end = page <= total_page - 2 ? parseInt(page) + 2 : total_page;
+
+            if(page > 3)
+            {
+                links += `
+                <li class="page-item">
+                    <a data-page="1" class="page-link page-no" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link prev" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>`;
+            }
+            else if( page == 1 )
+            {
+                links += `
+                <li class="page-item disabled">
+                    <a class="page-link prev" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>`;
+            }
+            else
+            {
+                links += `
+                <li class="page-item">
+                    <a class="page-link prev" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>`;
+            }
+
+            for( let counter = counter_start ; counter <= counter_end ; counter++ )
+            {
+                let active_check = counter == page ? 'active' : ''
+
+                links += `
+                <li class="page-item ${active_check}">
+                    <a data-page="${counter}" class="page-link page-no" href="#">${counter}</a>
+                </li>`;
+            }
+
+            if(page < total_page - 2)
+            {
+                links +=`
+                <li class="page-item">
+                    <a class="page-link next" href="#">Next</a>
+                </li>
+                <li class="page-item">
+                    <a data-page="${total_page}" class="page-link page-no" href="#">${total_page}</a>
+                </li>`;
+            }
+            else if( page == total_page )
+            {
+                links += `
+                <li class="page-item disabled">
+                    <a class="page-link next" href="#">Next</a>
+                </li>`
+            }
+            else
+            {
+                links += `
+                <li class="page-item">
+                    <a class="page-link next" href="#">Next</a>
+                </li>`
+            }
+
+            // links += `<li class="page-item ${page == 1 ? 'disabled' : ''}">
+            //             <a class="page-link prev" tabindex="-1" aria-disabled="true">Previous</a>
+            //         </li>`;
+
+            // for (let i = (pagination-1) * limit_pagination; i < (pagination * limit_pagination) && i < pages.length; i++)
+            // {
+            //     let page_no = parseInt(pages[i].page_no);
+
+            //     links += `<li class="page-item ${page_no == page ? 'active' : ''}">
+            //                 <a data-page=${page_no} class="page-link page-no">${page_no}</a>
+            //             </li>`;
+            // }
+
+            // links += `<li class="page-item ${page == total_page ? 'disabled' : ''}">
+            //             <a class="page-link next">Next</a>
+            //         </li>`;
+
+            this.entriesLevelRole(show_from, show_to, total);
+
+            pagination_container.html(links);
+        }
+
+        $.fn.extend({
+        getEmployee: async function(options)
+        {
+            const thead = this.find('thead');
+            const col_span = thead.find('th:visible').length;
+
+            this.tableLoader();
+
+            //store the last action to global variable to become default vaule
+            if(options) student_options = options
+
+            // This is the easiest way to have default options.
+            let settings = $.extend({
+                page: student_options.page || 1
+                , url: 'employee'
+                , search: student_options.search || ''
+            }, options );
+
+            try
+            {
+                const results = await getAjaxData(`${settings.url}?draw=${settings.page}${settings.search == '' ? '' : `?search=${settings.search}` }`);
+                if (results)
+                {
+                    const {data, recordsTotal} = results;
+
+                    data_employee = data;
+                    this.refreshEmployee(data_employee);
+                    this.entriesemployee(settings.page, data.length, recordsTotal)
+                }
+                else
+                {
+                    this.entriesemployee(0, 0, 0);
+                    tbody.html(`<tr><td class='text-center' colspan=${col_span}>No data</td></tr>`);
+                }
+            }
+            catch(err)
+            {
+                error(err);
+            }
+        }
+        , refreshEmployee: function(data, server = true, increment_total = 0)
+        {
+            const tbody = this.find('tbody');
+            const thead = this.find('thead');
+            const col_span = thead.find('th:visible').length;
+            const total = tab_employee.find('div.entries').find('span.total').text() || 0;
+
+            const generateRow = ({emploayee_id, name, username, position, position_desc, department, address}) =>
+            {
+                const actionButtons = (created_by = null) =>
+                    `${button('btn-success btn-edit', 'edit', 'fas fa-pencil')}
+                    ${button('btn-danger btn-delete', 'delete', 'fas fa-times')}`;
+
+                let action = actionButtons();
+
+                return `<tr data-tt-id="${emploayee_id}">
+                            <td>${action}</td>
+                            <td>${emploayee_id}</td>
+                            <td>${name}</td>
+                            <td>${username}</td>
+                            <td>${position}</td>
+                            <td>${position_desc}</td>
+                            <td>${department}</td>
+                            <td>${address}</td>
+                        </tr>`;
+            }
+
+            tbody.html('');
+
+            if(parseInt(data.length) > 0)
+            {
+                data.map(t =>
+                {
+                    tbody.append(generateRow(t));
+                });
+            }
+            else
+            {
+                tbody.html(`<tr><td class='text-center' colspan=${col_span}>No data</td></tr>`);
+            }
+        }
+    });
+
+
+const form_data = new FormData( $(this)[0] );
+formData.append('id', id);
+
+$.ajax({
+    url: API('time-out')
+    , method: 'POST'
+    , dataType: 'json'
+    , processData: false
+    , contentType: false
+    , headers:
+    {
+        Authorization: token
+    }
+    , data: form_data
+}).then(res =>
+{
+
+}).fail((err) => error(err));
+

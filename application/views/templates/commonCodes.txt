@@ -1,0 +1,138 @@
+$.confirm({
+  title: 'Delete'
+  , content: 'Do you want to delete this task?'
+  , type: 'red'
+  , icon: 'fa fa-trash'
+  , buttons: {
+    confirmBtn: {
+        text: "Delete"
+        , btnClass: "btn-red"
+        , action: function()
+        {
+          this.buttons.confirmBtn.setText('<i class="fas fa-spinner fa-spin"></i><span> deleting');
+          this.buttons.confirmBtn.disable();
+
+          setTimeout(() => {
+            this.setTitle('Success');
+            this.setContent('Successfully Deleted.');
+            this.setIcon('fa fa-check');
+
+            this.buttons.confirmBtn.hide();
+            this.buttons.cancelBtn.setText('OK');
+          }, 3000);
+
+          return false;
+        }
+    },
+    cancelBtn: {
+      text: 'cancel'
+      , action: function()
+      {
+
+      }
+    },
+  }
+});
+
+$.alert({
+  title: 'Ops!',
+  content: 'Please wait the other field/'s to load.',
+  type: 'red',
+  icon: 'fa fa-times-circle'
+});
+
+$.alert({
+    title: 'Success'
+    , content: 'Task successfully updated'
+    , type: 'green'
+    , icon: 'fa fa-check'
+});
+
+$.ajax({
+    url: API('time-out')
+    , method: 'POST'
+    , dataType: 'json'
+    , headers:
+    {
+        Authorization: token
+    }
+    , data: formData
+}).then(res =>
+{
+
+}).fail((err) => error(err));
+
+const sample_func = id =>
+  $.ajax({
+    url: API(`sample/${id}`),
+    headers: {
+      Authorization: token
+    }
+  });
+
+try
+{
+  const sample_data = await sample_func(id);
+  const { sample1, sample2} = sample_data;
+
+  if (sample_data)
+  {
+
+  }
+}
+catch (err)
+{
+  error(err);
+}
+
+if ($('#mySelect2').hasClass("select2-hidden-accessible")) {
+    // Select2 has been initialized
+}
+
+$.confirm({
+  content: function(){
+      let self = this;
+      self.setContent('Checking callback flow');
+      return $.ajax({
+          url: 'bower.json',
+          dataType: 'json',
+          method: 'get'
+      }).done(function (response) {
+          self.setContentAppend('<div>Done!</div>');
+      }).fail(function(){
+          self.setContentAppend('<div>Fail!</div>');
+      }).always(function(){
+          self.setContentAppend('<div>Always!</div>');
+      });
+  },
+  contentLoaded: function(data, status, xhr){
+      self.setContentAppend('<div>Content loaded!</div>');
+  },
+  onContentReady: function(){
+      this.setContentAppend('<div>Content ready!</div>');
+  }
+});
+
+$.confirm({
+  content: function(){
+      var self = this;
+      self.setContent('Checking callback flow');
+      return $.ajax({
+          url: 'bower.json',
+          dataType: 'json',
+          method: 'get'
+      }).done(function (response) {
+          self.setContentAppend('<div>Done!</div>');
+      }).fail(function(){
+          self.setContentAppend('<div>Fail!</div>');
+      }).always(function(){
+          self.setContentAppend('<div>Always!</div>');
+      });
+  },
+  contentLoaded: function(data, status, xhr){
+      self.setContentAppend('<div>Content loaded!</div>');
+  },
+  onContentReady: function(){
+      this.setContentAppend('<div>Content ready!</div>');
+  }
+});
